@@ -1,41 +1,392 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thử Nghiệm GitHub</title>
+    <title>Radiant Empire of Guohui | Official Imperial Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 20vh;
-            background-color: #f4f4f9;
-            transition: background 0.3s ease;
+        :root {
+            --primary-gold: #ffd700;
+            --cyan-glow: #00f3ff;
+            --space-blue: #0a0e1a;
+            --hud-border: rgba(0, 243, 255, 0.3);
+            --panel-bg: rgba(10, 14, 26, 0.75);
         }
-        h1 { color: #333; }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--space-blue);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Canvas nền không gian */
+        #space-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Container chính */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header / HUD Top Bar */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            background: var(--panel-bg);
+            border: 1px solid var(--hud-border);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.15);
+            margin-bottom: 2rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .star-icon {
+            color: var(--primary-gold);
+            font-size: 2rem;
+            filter: drop-shadow(0 0 10px var(--primary-gold));
+            animation: pulse 3s infinite alternate;
+        }
+
+        .brand-text h1 {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .brand-text p {
+            font-size: 0.8rem;
+            color: var(--cyan-glow);
+            letter-spacing: 1px;
+        }
+
+        .coordinates {
+            text-align: right;
+            font-family: monospace;
+            color: var(--cyan-glow);
+            font-size: 0.9rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--panel-bg);
+            border: 1px solid var(--hud-border);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--cyan-glow), transparent);
+            animation: scanline 4s linear infinite;
+        }
+
+        .motto {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+            letter-spacing: 3px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(180deg, #ffffff, var(--cyan-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+
+        .typing-text {
+            font-size: 1.1rem;
+            color: #d1d5db;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+            min-height: 3rem;
+        }
+
+        /* Cards Grid */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .hud-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--hud-border);
+            padding: 2rem;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .hud-card:hover {
+            border-color: var(--primary-gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            color: var(--cyan-glow);
+            margin-bottom: 1rem;
+        }
+
+        .hud-card h3 {
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hud-card p, .hud-card ul {
+            font-size: 0.95rem;
+            color: #9ca3af;
+            line-height: 1.6;
+            list-style: none;
+        }
+
+        .hud-card ul li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hud-card ul li i {
+            color: var(--cyan-glow);
+            font-size: 0.8rem;
+        }
+
+        /* Action Buttons */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-decoration: none;
+            transition: all 0.3s ease;
             cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            background-color: #007bff;
-            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--cyan-glow);
+            border: 1px solid var(--cyan-glow);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: var(--cyan-glow);
+            color: var(--space-blue);
+            box-shadow: 0 0 25px var(--cyan-glow);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--panel-bg);
+            border: 1px solid var(--hud-border);
+            border-radius: 8px;
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.1); opacity: 1; }
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(1000%); }
         }
     </style>
 </head>
 <body>
 
-    <h1> Chúc mừng! Code của bạn đã hoạt động trên GitHub!</h1>
-    <p>Nhấn vào nút bên dưới để kiểm tra tính năng Javascript.</p>
-    <button onclick="changeColor()">Đổi màu nền</button>
+    <!-- Canvas Vũ Trụ Nhấp Nháy -->
+    <canvas id="space-bg"></canvas>
 
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="brand">
+                <i class="fa-solid fa-star-of-david star-icon"></i>
+                <div class="brand-text">
+                    <h1>Radiant Empire of Guohui</h1>
+                    <p>Sovereign Digital & Orbital Domain</p>
+                </div>
+            </div>
+            <div class="coordinates">
+                <div>SECTOR: 105°E GEO</div>
+                <div>STATUS: ACTIVE / SECURE</div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="motto">"Ad Astra Per Scientiam"</div>
+            <h2 class="hero-title">Welcome to the Imperial Portal</h2>
+            <div class="typing-text" id="typing-box"></div>
+            <div class="btn-group">
+                <a href="https://micronations.wiki/wiki/Draft:Radiant_Empire_of_Guohui" target="_blank" class="btn btn-primary">
+                    <i class="fa-solid fa-book-atlas"></i> MicroWiki Article
+                </a>
+            </div>
+        </section>
+
+        <!-- Dynamic Grid -->
+        <div class="grid-3">
+            <!-- Sovereign Info -->
+            <div class="hud-card">
+                <i class="fa-solid fa-crown card-icon"></i>
+                <h3>Sovereignty</h3>
+                <ul>
+                    <li><i class="fa-solid fa-angle-right"></i> <strong>Monarch:</strong> His Imperial Majesty Emperor Guohui I</li>
+                    <li><i class="fa-solid fa-angle-right"></i> <strong>Founder:</strong> Liz Quiehui / Lý Thu Tuệ</li>
+                    <li><i class="fa-solid fa-angle-right"></i> <strong>Base:</strong> Thailand</li>
+                    <li><i class="fa-solid fa-angle-right"></i> <strong>Government:</strong> Absolute Monarchy</li>
+                </ul>
+            </div>
+
+            <!-- Territory & Jurisdiction -->
+            <div class="hud-card">
+                <i class="fa-solid fa-satellite card-icon"></i>
+                <h3>Domain & Jurisdiction</h3>
+                <ul>
+                    <li><i class="fa-solid fa-angle-right"></i> <strong>Primary Claim:</strong> 105°E Geostationary Orbit</li>
+                    <li><i class="fa-solid fa-angle-right"></i> <strong>Infrastructure:</strong> Guohui Orbital Station</li>
+                    <li><i class="fa-solid fa-angle-right"></i> <strong>Digital Realm:</strong> Encrypted Global Network</li>
+                    <li><i class="fa-solid fa-angle-right"></i> <strong>Status:</strong> Non-Terrestrial</li>
+                </ul>
+            </div>
+
+            <!-- Scientific Vision -->
+            <div class="hud-card">
+                <i class="fa-solid fa-atom card-icon"></i>
+                <h3>Scientific Vision</h3>
+                <ul>
+                    <li><i class="fa-solid fa-angle-right"></i> <strong>M.Sc. Metaphysics & Th.D.</strong> Academic Core</li>
+                    <li><i class="fa-solid fa-angle-right"></i> Advanced Artificial Intelligence Research</li>
+                    <li><i class="fa-solid fa-angle-right"></i> Peaceful Space Exploration Rights</li>
+                    <li><i class="fa-solid fa-angle-right"></i> Intellectual Freedom & Digital Sovereignty</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2026 Radiant Empire of Guohui. All Sovereign Rights Reserved.</p>
+            <p style="margin-top: 5px; color: var(--cyan-glow);">Official Imperial Repository hosted on GitHub Pages</p>
+        </footer>
+    </div>
+
+    <!-- Script Hiệu Ứng -->
     <script>
-        function changeColor() {
-            const colors = ['#ffadad', '#ffd6a5', '#fdffb6', '#caffbf', '#9bf6ff', '#a0c4ff', '#bdb2ff', '#ffc6ff'];
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
-            document.body.style.backgroundColor = randomColor;
+        // Hiệu ứng Canvas Không Gian Vũ Trụ
+        const canvas = document.getElementById('space-bg');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const stars = Array.from({ length: 150 }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 2,
+            speed: Math.random() * 0.5 + 0.1,
+            opacity: Math.random()
+        }));
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(star => {
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                star.y -= star.speed;
+                if (star.y < 0) {
+                    star.y = canvas.height;
+                    star.x = Math.random() * canvas.width;
+                }
+            });
+            requestAnimationFrame(drawStars);
+        }
+        drawStars();
+
+        // Hiệu ứng chữ gõ tự động
+        const textToType = "Establishing a new era of digital civilization, scientific self-determination, and space exploration. Governed under progressive natural rights and high-technological innovation.";
+        let index = 0;
+        const typingContainer = document.getElementById('typing-box');
+
+        function typeEffect() {
+            if (index < textToType.length) {
+                typingContainer.innerHTML += textToType.charAt(index);
+                index++;
+                setTimeout(typeEffect, 30);
+            }
+        }
+        setTimeout(typeEffect, 500);
     </script>
 </body>
 </html>
