@@ -67,11 +67,20 @@
             gap: 15px;
         }
 
-        .star-icon {
-            color: var(--primary-gold);
-            font-size: 2rem;
-            filter: drop-shadow(0 0 10px var(--primary-gold));
-            animation: pulse 3s infinite alternate;
+        /* Ảnh đại diện người sáng lập */
+        .founder-avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-gold);
+            box-shadow: 0 0 12px var(--cyan-glow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .founder-avatar:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 20px var(--primary-gold);
         }
 
         .brand-text h1 {
@@ -269,7 +278,8 @@
         <!-- Header -->
         <header>
             <div class="brand">
-                <i class="fa-solid fa-star-of-david star-icon"></i>
+                <!-- Ảnh Người Sáng Lập -->
+                <img src="https://i83.servimg.com/u/f83/20/63/21/42/10000110.jpg" alt="Founder Portrait" class="founder-avatar">
                 <div class="brand-text">
                     <h1>Radiant Empire of Guohui</h1>
                     <p>Sovereign Digital & Orbital Domain</p>
