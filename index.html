@@ -1,413 +1,235 @@
-<meta name="google-site-verification" content="4LBzg7CVTndtv5nLgBz_I2abDCCVJVgroeVR56DkWuk" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radiant Empire of Guohui | Official Portal</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Radiant Empire of Guohui - Official Portal</title>
     <style>
-        :root {
-            --primary-gold: #ffd700;
-            --cyan-glow: #00f3ff;
-            --space-blue: #0a0e1a;
-            --hud-border: rgba(0, 243, 255, 0.3);
-            --panel-bg: rgba(10, 14, 26, 0.75);
-        }
-
-        * {
+        body {
+            background-color: #050811;
+            color: #e0e1dd;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', 'Roboto', sans-serif;
         }
-
-        body {
-            background-color: var(--space-blue);
-            color: #ffffff;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
-        /* Canvas nền không gian */
-        #space-bg {
+        .stars {
+            background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                              radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
+            background-size: 550px 550px;
+            background-position: 0 0, 40px 60px;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; right: 0; bottom: 0;
             z-index: -1;
         }
-
-        /* Container chính */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Header / HUD Top Bar */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem;
-            background: var(--panel-bg);
-            border: 1px solid var(--hud-border);
-            border-radius: 8px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.15);
-            margin-bottom: 2rem;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        /* Ảnh đại diện Thầy Sáng Lập */
-        .founder-avatar {
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--primary-gold);
-            box-shadow: 0 0 12px var(--cyan-glow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .founder-avatar:hover {
-            transform: scale(1.08);
-            box-shadow: 0 0 20px var(--primary-gold);
-        }
-
-        .brand-text h1 {
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-            color: #fff;
-            text-transform: uppercase;
-        }
-
-        .brand-text p {
-            font-size: 0.8rem;
-            color: var(--cyan-glow);
-            letter-spacing: 1px;
-        }
-
-        .coordinates {
-            text-align: right;
-            font-family: monospace;
-            color: var(--cyan-glow);
-            font-size: 0.9rem;
-        }
-
-        /* Hero Section */
-        .hero {
+            background: linear-gradient(180deg, rgba(11,19,43,0.9) 0%, rgba(5,8,17,0.8) 100%);
+            border-bottom: 2px solid #00d2ff;
             text-align: center;
-            padding: 4rem 2rem;
-            background: var(--panel-bg);
-            border: 1px solid var(--hud-border);
-            border-radius: 8px;
-            backdrop-filter: blur(10px);
-            margin-bottom: 2rem;
-            position: relative;
-            overflow: hidden;
+            padding: 40px 20px;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
         }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--cyan-glow), transparent);
-            animation: scanline 4s linear infinite;
+        h1 {
+            color: #ffcc00;
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+            letter-spacing: 2px;
         }
-
-        .motto {
-            font-size: 1.2rem;
-            font-style: italic;
-            color: var(--primary-gold);
-            margin-bottom: 1rem;
-            letter-spacing: 3px;
-        }
-
-        .hero-title {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(180deg, #ffffff, var(--cyan-glow));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .subtitle {
+            color: #00d2ff;
+            font-size: 1.2em;
+            margin-top: 10px;
             text-transform: uppercase;
-            letter-spacing: 4px;
         }
-
-        .typing-text {
-            font-size: 1.1rem;
-            color: #d1d5db;
-            max-width: 800px;
-            margin: 0 auto 2rem;
-            line-height: 1.6;
-            min-height: 3rem;
-        }
-
-        /* Cards Grid */
-        .grid-3 {
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
         }
-
-        .hud-card {
-            background: var(--panel-bg);
-            border: 1px solid var(--hud-border);
-            padding: 2rem;
+        @media (max-width: 850px) {
+            .container { grid-template-columns: 1fr; }
+        }
+        main {
+            background: rgba(11, 19, 43, 0.6);
+            border: 1px solid #1c2541;
+            padding: 30px;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+        }
+        h2 {
+            color: #ffcc00;
+            border-bottom: 1px solid #3a506b;
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+        h3 { color: #00d2ff; }
+        .infobox {
+            background: #0b132b;
+            border: 2px solid #00d2ff;
             border-radius: 8px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            padding: 20px;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(0,210,255,0.15);
+            align-self: start;
         }
-
-        .hud-card:hover {
-            border-color: var(--primary-gold);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2);
-        }
-
-        .card-icon {
-            font-size: 2.5rem;
-            color: var(--cyan-glow);
-            margin-bottom: 1rem;
-        }
-
-        .hud-card h3 {
-            color: var(--primary-gold);
-            margin-bottom: 1rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .hud-card p, .hud-card ul {
-            font-size: 0.95rem;
-            color: #9ca3af;
-            line-height: 1.6;
-            list-style: none;
-        }
-
-        .hud-card ul li {
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .hud-card ul li i {
-            color: var(--cyan-glow);
-            font-size: 0.8rem;
-        }
-
-        /* Action Buttons */
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        .btn {
-            padding: 0.8rem 2rem;
-            border-radius: 4px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-primary {
-            background: rgba(0, 243, 255, 0.1);
-            color: var(--cyan-glow);
-            border: 1px solid var(--cyan-glow);
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
-        }
-
-        .btn-primary:hover {
-            background: var(--cyan-glow);
-            color: var(--space-blue);
-            box-shadow: 0 0 25px var(--cyan-glow);
-        }
-
-        /* Footer */
-        footer {
+        .infobox h2 {
             text-align: center;
-            padding: 2rem;
-            background: var(--panel-bg);
-            border: 1px solid var(--hud-border);
-            border-radius: 8px;
-            color: #6b7280;
-            font-size: 0.85rem;
+            margin-top: 0;
+            font-size: 1.3em;
+            border: none;
         }
-
-        .counter-box {
+        .symbols-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            background: #1c2541;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        .symbols-grid img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95em;
+        }
+        .info-table td {
+            padding: 8px 4px;
+            border-bottom: 1px solid #1c2541;
+        }
+        .info-table td:first-child {
+            color: #00d2ff;
+            font-weight: bold;
+            width: 40%;
+        }
+        .founder-box {
+            display: flex;
+            gap: 20px;
+            background: linear-gradient(135deg, #1c2541, #0b132b);
+            border: 1px solid #3a506b;
+            padding: 20px;
+            border-radius: 8px;
+            align-items: center;
             margin-top: 15px;
         }
-
-        /* Animations */
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.1); opacity: 1; }
+        .founder-box img {
+            width: 150px;
+            height: auto;
+            border: 2px solid #ffcc00;
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(255,204,0,0.3);
         }
-
-        @keyframes scanline {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(1000%); }
+        @media (max-width: 600px) {
+            .founder-box { flex-direction: column; text-align: center; }
+        }
+        .motto {
+            font-style: italic;
+            color: #ffcc00;
+            font-weight: bold;
+            text-align: center;
+            background: rgba(255,204,0,0.1);
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 4px solid #ffcc00;
+        }
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #aaa;
+            font-size: 0.9em;
+            border-top: 1px solid #1c2541;
+            margin-top: 60px;
+        }
+        .counter-container {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .counter-container img {
+            border: 1px solid #3a506b;
+            border-radius: 4px;
+            padding: 3px;
+            background: #ffffff;
         }
     </style>
 </head>
 <body>
-
-    <!-- Canvas Vũ Trụ Nhấp Nháy -->
-    <canvas id="space-bg"></canvas>
+    <div class="stars"></div>
+    
+    <header>
+        <h1>RADIANT EMPIRE OF GUOHUI</h1>
+        <div class="subtitle">Official Orbital & Digital Sovereign Portal</div>
+    </header>
 
     <div class="container">
-        <!-- Header -->
-        <header>
-            <div class="brand">
-                <!-- Ảnh Thầy Sáng Lập -->
-                <img src="https://i83.servimg.com/u/f83/20/63/21/42/10000110.jpg" alt="Thầy Sáng Lập Portrait" class="founder-avatar">
-                <div class="brand-text">
-                    <h1>Radiant Empire of Guohui</h1>
-                    <p>Sovereign Digital & Orbital Domain</p>
+        <main>
+            <p style="font-size: 1.1em; border-left: 4px solid #00d2ff; padding-left: 15px;">
+                The <strong>Radiant Empire of Guohui</strong> (commonly known as <strong>The Radiant Empire</strong> or <strong>Guohui</strong>) is a space-based and digital [[micronation]] established on 6 September 2026 by Emperor Guohui I (Liz Quiehui / Lý Thu Tuệ). The micronation asserts sovereignty over the <strong>Geostationary Orbital Position at 105° East longitude</strong> (105°E GEO) and its associated space infrastructure, collectively designated as <strong>Guohui Station</strong>, alongside its sovereign digital domains.
+            </p>
+
+            <h2>Founder and Monarch</h2>
+            <div class="founder-box">
+                <img src="1783937015680_4963620145490044527_4963620145490044527_15e3320260983c872b32724424c3e511 (1).jpg" alt="Emperor Guohui I">
+                <div>
+                    <h3>His Imperial Majesty, Emperor Guohui I</h3>
+                    <p>The founder and reigning monarch of the Radiant Empire of Guohui is <strong>Emperor Guohui I</strong> (born Liz Quiehui / Lý Thu Tuệ). The Emperor currently resides and works in Thailand. Highly educated in advanced theoretical and spiritual disciplines, Emperor Guohui I holds a Master of Science in Metaphysics (M.Sc. in Metaphysics) and a Doctor of Theology (Th.D.). The integration of scientific principles, metaphysical insights, and theological philosophy forms the intellectual foundation of the Empire's governance and vision for human expansion into space.</p>
                 </div>
             </div>
-            <div class="coordinates">
-                <div>SECTOR: 105°E GEO</div>
-                <div>STATUS: ACTIVE / SECURE</div>
-            </div>
-        </header>
 
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="motto">"Ad Astra Per Scientiam"</div>
-            <h2 class="hero-title">Welcome to the Official Portal</h2>
-            <div class="typing-text" id="typing-box"></div>
-            <div class="btn-group">
-                <a href="https://micronations.wiki/wiki/Draft:Radiant_Empire_of_Guohui" target="_blank" class="btn btn-primary">
-                    <i class="fa-solid fa-book-atlas"></i> MicroWiki Article
-                </a>
-            </div>
-        </section>
+            <h2>History & Proclamation</h2>
+            <h3>Proclamation of Sovereignty</h3>
+            <p>On 6 September 2026, His Imperial Majesty Emperor Guohui I formally issued the <em>Official Proclamation of Sovereignty to All Nations and Peoples of the World</em>. The proclamation declared the establishment of the Radiant Empire of Guohui as a sovereign entity based on natural human rights, scientific self-determination, and progressive principles of international space law.</p>
+            <p>The foundational decree outlined the nation's core principles, focusing on advanced technological development, artificial intelligence, civil liberty, and peaceful space exploration.</p>
 
-        <!-- Dynamic Grid -->
-        <div class="grid-3">
-            <!-- Sovereign Info -->
-            <div class="hud-card">
-                <i class="fa-solid fa-user-gear card-icon"></i>
-                <h3>Sovereignty</h3>
-                <ul>
-                    <li><i class="fa-solid fa-angle-right"></i> <strong>Thầy Sáng Lập:</strong> Liz Quiehui / Lý Thu Tuệ (Guohui I)</li>
-                    <li><i class="fa-solid fa-angle-right"></i> <strong>Trụ sở:</strong> Thailand</li>
-                    <li><i class="fa-solid fa-angle-right"></i> <strong>Quản trị:</strong> Autonomous Leadership</li>
-                </ul>
-            </div>
+            <h2>Jurisdiction and Domain</h2>
+            <p>Unlike traditional terrestrial nations, the Empire claims an orbital jurisdiction located at 105°E in Geostationary Orbit. According to the Imperial Government, this positioning allows the state to operate as an orbital and digital sovereign entity, free from terrestrial border conflicts while maintaining a symbolic connection with the East Asian meridian.</p>
+            <p>The Empire also maintains a sovereign digital presence anchored through its network infrastructure.</p>
 
-            <!-- Territory & Jurisdiction -->
-            <div class="hud-card">
-                <i class="fa-solid fa-satellite card-icon"></i>
-                <h3>Domain & Jurisdiction</h3>
-                <ul>
-                    <li><i class="fa-solid fa-angle-right"></i> <strong>Primary Claim:</strong> 105°E Geostationary Orbit</li>
-                    <li><i class="fa-solid fa-angle-right"></i> <strong>Infrastructure:</strong> Guohui Orbital Station</li>
-                    <li><i class="fa-solid fa-angle-right"></i> <strong>Digital Realm:</strong> Encrypted Global Network</li>
-                    <li><i class="fa-solid fa-angle-right"></i> <strong>Status:</strong> Non-Terrestrial</li>
-                </ul>
-            </div>
+            <h2>Government, Law and Rights</h2>
+            <p>The Radiant Empire of Guohui is structured as an absolute monarchy headed by the reigning monarch, Emperor Guohui I. The state operates under a progressive digital legal framework that guarantees protection of intellectual property, freedom of thought, scientific research, and technological innovation.</p>
+        </main>
 
-            <!-- Scientific Vision -->
-            <div class="hud-card">
-                <i class="fa-solid fa-atom card-icon"></i>
-                <h3>Scientific Vision</h3>
-                <ul>
-                    <li><i class="fa-solid fa-angle-right"></i> <strong>M.Sc. Metaphysics & Th.D.</strong> Academic Core</li>
-                    <li><i class="fa-solid fa-angle-right"></i> Advanced Artificial Intelligence Research</li>
-                    <li><i class="fa-solid fa-angle-right"></i> Peaceful Space Exploration Rights</li>
-                    <li><i class="fa-solid fa-angle-right"></i> Intellectual Freedom & Digital Sovereignty</li>
-                </ul>
+        <aside class="infobox">
+            <h2>Radiant Empire of Guohui</h2>
+            <div class="symbols-grid">
+                <div>
+                    <img src="image_c202ee29.jpeg" alt="Flag of Guohui">
+                    <div style="font-size: 0.8em; margin-top: 5px; color: #00d2ff;">Flag</div>
+                </div>
+                <div>
+                    <img src="image_76274355.jpeg" alt="Coat of Arms of Guohui">
+                    <div style="font-size: 0.8em; margin-top: 5px; color: #00d2ff;">Coat of Arms</div>
+                </div>
             </div>
-        </div>
-
-        <!-- Footer -->
-        <footer>
-            <p>&copy; 2026 Radiant Empire of Guohui. All Sovereign Rights Reserved.</p>
-            <p style="margin-top: 5px; color: var(--cyan-glow);">Official Repository hosted on GitHub Pages</p>
             
-            <!-- Mã đếm lượt truy cập (Flag Counter) -->
-            <div class="counter-box">
-                <a href="https://info.flagcounter.com/zycL" target="_blank">
-                    <img src="https://s01.flagcounter.com/count2/zycL/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0">
-                </a>
-            </div>
-        </footer>
+            <table class="info-table">
+                <tr><td>Status</td><td>Active</td></tr>
+                <tr><td>Capital</td><td>Guohui Orbital Station</td></tr>
+                <tr><td>Official Lang.</td><td>English</td></tr>
+                <tr><td>Government</td><td>Absolute Monarchy</td></tr>
+                <tr><td>Monarch</td><td>Guohui I</td></tr>
+                <tr><td>Established</td><td>6 September 2026</td></tr>
+                <tr><td>Area Claimed</td><td>105°E GEO Sector</td></tr>
+            </table>
+
+            <h3 style="text-align: center; margin-top: 25px; font-size: 1.1em;">National Symbols</h3>
+            <div class="motto">"Ad Astra Per Scientiam"<br><span style="font-size: 0.85em; font-weight: normal; color: #666;">To the stars through knowledge</span></div>
+        </aside>
     </div>
 
-    <!-- Script Hiệu Ứng -->
-    <script>
-        // Hiệu ứng Canvas Không Gian Vũ Trụ
-        const canvas = document.getElementById('space-bg');
-        const ctx = canvas.getContext('2d');
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        const stars = Array.from({ length: 150 }, () => ({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            size: Math.random() * 2,
-            speed: Math.random() * 0.5 + 0.1,
-            opacity: Math.random()
-        }));
-
-        function drawStars() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            stars.forEach(star => {
-                ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-                ctx.fill();
-
-                star.y -= star.speed;
-                if (star.y < 0) {
-                    star.y = canvas.height;
-                    star.x = Math.random() * canvas.width;
-                }
-            });
-            requestAnimationFrame(drawStars);
-        }
-        drawStars();
-
-        // Hiệu ứng chữ gõ tự động
-        const textToType = "Establishing a new era of digital civilization, scientific self-determination, and space exploration. Governed under progressive natural rights and high-technological innovation.";
-        let index = 0;
-        const typingContainer = document.getElementById('typing-box');
-
-        function typeEffect() {
-            if (index < textToType.length) {
-                typingContainer.innerHTML += textToType.charAt(index);
-                index++;
-                setTimeout(typeEffect, 30);
-            }
-        }
-        setTimeout(typeEffect, 500);
-    </script>
+    <footer>
+        <div class="counter-container">
+            <a href="https://info.flagcounter.com/QzEW"><img src="https://s01.flagcounter.com/count2/QzEW/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
+        </div>
+        <p>&copy; 2026 Radiant Empire of Guohui. All rights reserved.</p>
+    </footer>
 </body>
 </html>
